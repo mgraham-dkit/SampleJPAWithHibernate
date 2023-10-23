@@ -2,13 +2,10 @@ package application;
 
 import daos.EmployeeDao;
 import daos.EmployeeDaoInterface;
-import entities.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -20,7 +17,7 @@ public class TestPersistEmployee {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EmployeeDao dao = new EmployeeDao(entityManager);
+        EmployeeDaoInterface dao = new EmployeeDao(entityManager);
 
         System.out.println(dao.getAllEmployees());
         System.out.println(dao.getEmployeeByEmail("john.minor54@workdomain.com"));

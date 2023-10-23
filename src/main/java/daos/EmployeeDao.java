@@ -63,7 +63,7 @@ public class EmployeeDao implements EmployeeDaoInterface {
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();
-                Employee updated = entityManager.merge(e);
+                Employee updated = entityManager.merge(emp);
                 transaction.commit();
                 return updated;
             } catch (PersistenceException pe) {
