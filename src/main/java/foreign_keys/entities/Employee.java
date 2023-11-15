@@ -1,8 +1,9 @@
-package entities;
+package foreign_keys.entities;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name="employees")
@@ -21,6 +22,19 @@ public class Employee {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    // MANY Employees belong to ONE department
+    @ManyToOne
+    // Because this is the "owning" side, it gets the joining column
+    // In other words, because this is the one that would have the foreign key in the database
+    // it gets the join column
+    // The join column is the foreign key value that links to the other table
+    @JoinColumn(name="department")
+    private Department department;
+
+    @OneToOne(mappedBy = "resident", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Address address;
+
     public Employee() {
     }
 
@@ -28,11 +42,46 @@ public class Employee {
         this.id = id;
     }
 
+    public Employee(String email, String fName, String lName, LocalDate startDate, Department department, Address address) {
+        this.email = email;
+        this.fName = fName;
+        this.lName = lName;
+        this.startDate = startDate;
+        this.department = department;
+        this.address = address;
+    }
+
+    public Employee(long id, String email, String fName, String lName, LocalDate startDate, Department department, Address address) {
+        this.id = id;
+        this.email = email;
+        this.fName = fName;
+        this.lName = lName;
+        this.startDate = startDate;
+        this.department = department;
+        this.address = address;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department dept) {
+        this.department = dept;
+    }
+
     public Employee(String email, String fName, String lName, LocalDate startDate) {
         this.email = email;
         this.fName = fName;
         this.lName = lName;
         this.startDate = startDate;
+    }
+
+    public Employee(String email, String fName, String lName, LocalDate startDate, Department department) {
+        this.email = email;
+        this.fName = fName;
+        this.lName = lName;
+        this.startDate = startDate;
+        this.department = department;
     }
 
     public Employee(String fName, String lName, LocalDate startDate) {
@@ -90,6 +139,27 @@ public class Employee {
         this.lName = lName;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -98,6 +168,8 @@ public class Employee {
                 ", fName='" + fName + '\'' +
                 ", lName='" + lName + '\'' +
                 ", startDate=" + startDate +
+                ", department=" + department +
+                ", address=" + address +
                 '}';
     }
 }

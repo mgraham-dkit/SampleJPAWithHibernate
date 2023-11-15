@@ -1,6 +1,7 @@
-package daos;
+package foreign_keys.daos;
 
-import entities.Employee;
+import foreign_keys.entities.Department;
+import foreign_keys.entities.Employee;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -25,8 +26,16 @@ public class EmployeeDao implements EmployeeDaoInterface {
     }
 
     @Override
+    public List<Employee> getEmployeesByDept(Department dept) {
+        Query query = entityManager.createQuery("SELECT e FROM Employee e WHERE e.department = ?1");
+        query.setParameter(1, dept);
+        return query.getResultList();
+    }
+
+    @Override
     public Optional<Employee> getEmployeeByEmail(String email) {
-        TypedQuery<Employee> query = entityManager.createQuery("SELECT e FROM Employee e WHERE email = ?1", Employee.class);
+        TypedQuery<Employee> query = entityManager.createQuery("SELECT e FROM Employee e WHERE email = ?1",
+                Employee.class);
         query.setParameter(1, email);
         try {
             return Optional.ofNullable(query.getSingleResult());
