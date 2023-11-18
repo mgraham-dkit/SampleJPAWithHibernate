@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Address {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="id")
     private long id;
 
     @Column(nullable = false, length = 50)
@@ -26,9 +27,7 @@ public class Address {
     @Column(nullable = false, length = 50)
     private String country;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name="employee_id")
+    @OneToOne(mappedBy = "address")
     private Employee resident;
 
     public Address() {

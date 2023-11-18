@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Employee {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
     @Column(length=50, nullable = false, unique=true)
@@ -31,8 +32,8 @@ public class Employee {
     @JoinColumn(name="department")
     private Department department;
 
-    @OneToOne(mappedBy = "resident", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
     private Address address;
 
     public Employee() {

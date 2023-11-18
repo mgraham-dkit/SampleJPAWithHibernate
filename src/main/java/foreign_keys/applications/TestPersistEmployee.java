@@ -95,13 +95,11 @@ public class TestPersistEmployee {
                 int addressIndex = rand.nextInt(addresses.size());
                 Address address = addresses.get(addressIndex);
 
-                Employee employee = new Employee(email, first, last, LocalDate.now(), dept);
+                Employee employee = new Employee(email, first, last, LocalDate.now(), dept, address);
                 address.setResident(employee);
                 if(dept.addStaff(employee)) {
                     if (employeeDao.save(employee)) {
                         employees.add(employee);
-                        employee.setAddress(address);
-                        employeeDao.update(employee);
                     }
                 }
             }
