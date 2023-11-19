@@ -32,8 +32,11 @@ public class Project {
     private LocalDate dueDate;
 
     @ManyToMany
-    @JoinTable(name="project_team", joinColumns = {@JoinColumn(name = "project_id")}, inverseJoinColumns =
-            {@JoinColumn(name="employee_id")})
+    @JoinTable(
+            name="project_team",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name="employee_id")}
+    )
     private Set<Employee> team;
 
     public Project() {
@@ -139,6 +142,14 @@ public class Project {
     public boolean addTeamMember(Employee e){
         if(this.team.add(e)){
             e.addProject(this);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeTeamMember(Employee e){
+        if(this.team.remove(e)){
+            e.removeProject(this);
             return true;
         }
         return false;

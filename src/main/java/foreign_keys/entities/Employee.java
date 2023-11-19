@@ -181,6 +181,8 @@ public class Employee {
         return Objects.hash(id);
     }
 
+    // Helper method to fill in the toString with linked entity data (rather than the complete toString of
+    // the other entity)
     private String getProjectNames(){
         if(projects.isEmpty()){
             return "[None]";
@@ -196,6 +198,8 @@ public class Employee {
         return names+ "]";
     }
 
+    // Helper method to fill in the toString with limited linked entity data (rather than the complete toString of
+    // the other entity)
     private String getDeptName(){
         if(this.department != null){
             return this.department.getName();
@@ -217,7 +221,13 @@ public class Employee {
                 '}';
     }
 
+    // As this is not the "owning" side of the relationship, we don't enforce referential integrity here
+    // This does mean we are relying on the developer to maintain them correctly via the "owning" side
     public void addProject(Project p){
         this.projects.add(p);
+    }
+
+    public void removeProject(Project p){
+        this.projects.remove(p);
     }
 }
