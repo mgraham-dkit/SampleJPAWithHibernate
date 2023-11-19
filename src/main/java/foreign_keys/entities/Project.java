@@ -45,7 +45,7 @@ public class Project {
         this.description = description;
         this.startDate = startDate;
         this.dueDate = dueDate;
-        team = new HashSet<Employee>();
+        team = new HashSet<>();
     }
 
     public Project(String name, String description, LocalDate startDate, LocalDate dueDate) {
@@ -53,7 +53,7 @@ public class Project {
         this.description = description;
         this.startDate = startDate;
         this.dueDate = dueDate;
-        team = new HashSet<Employee>();
+        team = new HashSet<>();
     }
 
     public long getId() {

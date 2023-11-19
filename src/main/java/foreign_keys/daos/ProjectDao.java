@@ -1,7 +1,5 @@
 package foreign_keys.daos;
 
-import foreign_keys.entities.Department;
-import foreign_keys.entities.Employee;
 import foreign_keys.entities.Project;
 import jakarta.persistence.*;
 

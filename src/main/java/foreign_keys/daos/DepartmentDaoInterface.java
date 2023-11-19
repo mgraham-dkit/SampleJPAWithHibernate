@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DepartmentDaoInterface {
-    public List<Department> getAllDepartments();
-    public Optional<Department> getDepartmentById(String name);
-    public boolean save(Department d);
-    public Department update(Department d);
-    public boolean remove(Department d);
+    List<Department> getAllDepartments();
+    Optional<Department> getDepartmentById(String name);
+    boolean save(Department d);
+    Department update(Department d);
+    boolean remove(Department d);
 }

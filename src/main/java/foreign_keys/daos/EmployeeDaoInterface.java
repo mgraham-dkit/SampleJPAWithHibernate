@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeDaoInterface {
-    public List<Employee> getAllEmployees();
-    public Optional<Employee> getEmployeeById(long id);
-
-    public List<Employee> getEmployeesByDept(Department dept);
-    public Optional<Employee> getEmployeeByEmail(String email);
-    public boolean save(Employee e);
-    public Employee update(Employee e);
-    public boolean remove(Employee e);
+    List<Employee> getAllEmployees();
+    Optional<Employee> getEmployeeById(long id);
+    List<Employee> getEmployeesByDept(Department dept);
+    Optional<Employee> getEmployeeByEmail(String email);
+    boolean save(Employee e);
+    Employee update(Employee e);
+    boolean remove(Employee e);
 }
