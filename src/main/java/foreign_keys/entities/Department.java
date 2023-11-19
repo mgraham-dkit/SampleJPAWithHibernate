@@ -44,11 +44,19 @@ public class Department {
     }
 
     public boolean addStaff(Employee e){
-        return employees.add(e);
+        if(employees.add(e)){
+            e.setDepartment(this);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeStaff(Employee e){
-        return this.employees.remove(e);
+        if(this.employees.remove(e)){
+            e.setDepartment(null);
+            return true;
+        }
+        return false;
     }
 
     @Override

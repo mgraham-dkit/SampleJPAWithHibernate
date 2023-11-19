@@ -62,14 +62,6 @@ public class Employee {
         this.address = address;
     }
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department dept) {
-        this.department = dept;
-    }
-
     public Employee(String email, String fName, String lName, LocalDate startDate) {
         this.email = email;
         this.fName = fName;
@@ -138,6 +130,14 @@ public class Employee {
 
     public void setlName(String lName) {
         this.lName = lName;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department dept) {
+        this.department = dept;
     }
 
     public Address getAddress() {
