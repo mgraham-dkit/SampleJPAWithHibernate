@@ -11,8 +11,7 @@ import java.util.Objects;
 public class Department {
     @Id
     private String name;
-    @OneToMany
-    @JoinColumn(name = "department")
+    @OneToMany(mappedBy = "department")
     private List<Employee> employees;
 
     public Department() {
