@@ -2,9 +2,7 @@ package foreign_keys.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="departments")
@@ -12,21 +10,21 @@ public class Department {
     @Id
     private String name;
     @OneToMany(mappedBy = "department")
-    private List<Employee> employees;
+    private Set<Employee> employees;
 
     public Department() {
-        employees = new ArrayList();
+        employees = new HashSet<>();
     }
 
     public Department(String name) {
         this.name = name;
-        employees = new ArrayList();
+        employees = new HashSet<>();
     }
 
-    public Department(String name, List<Employee> employees) {
+    public Department(String name, Set<Employee> employees) {
         this.name = name;
         this.employees = employees;
-        employees = new ArrayList();
+        employees = new HashSet<>();
     }
 
     public String getName() {
@@ -37,20 +35,16 @@ public class Department {
         this.name = name;
     }
 
-    public List<Employee> getEmployees() {
+    public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> staff) {
+    public void setEmployees(Set<Employee> staff) {
         this.employees = staff;
     }
 
     public boolean addStaff(Employee e){
-        if(!this.employees.contains(e)){
-            this.employees.add(e);
-            return true;
-        }
-        return false;
+        return employees.add(e);
     }
 
     public boolean removeStaff(Employee e){
