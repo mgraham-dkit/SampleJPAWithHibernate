@@ -3,7 +3,10 @@ package foreign_keys.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="employees")
@@ -32,27 +35,33 @@ public class Employee {
     @JoinColumn(name="department")
     private Department department;
 
+    // ONE Address belongs to ONE Employee
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @ManyToMany(mappedBy = "team")
+    private Set<Project> projects;
 
     public Employee() {
     }
 
     public Employee(long id){
         this.id = id;
+        this.projects = new HashSet<>();
     }
 
-    public Employee(String email, String fName, String lName, LocalDate startDate, Department department, Address address) {
+    public Employee(String email, String fName, String lName, LocalDate startDate, Department department, Address address, Set<Project> projects) {
         this.email = email;
         this.fName = fName;
         this.lName = lName;
         this.startDate = startDate;
         this.department = department;
         this.address = address;
+        this.projects = projects;
     }
 
-    public Employee(long id, String email, String fName, String lName, LocalDate startDate, Department department, Address address) {
+    public Employee(long id, String email, String fName, String lName, LocalDate startDate, Department department, Address address, Set<Project> projects) {
         this.id = id;
         this.email = email;
         this.fName = fName;
@@ -60,6 +69,7 @@ public class Employee {
         this.startDate = startDate;
         this.department = department;
         this.address = address;
+        this.projects = projects;
     }
 
     public Employee(String email, String fName, String lName, LocalDate startDate) {
@@ -67,6 +77,7 @@ public class Employee {
         this.fName = fName;
         this.lName = lName;
         this.startDate = startDate;
+        this.projects = new HashSet<>();
     }
 
     public Employee(String email, String fName, String lName, LocalDate startDate, Department department) {
@@ -75,12 +86,14 @@ public class Employee {
         this.lName = lName;
         this.startDate = startDate;
         this.department = department;
+        this.projects = new HashSet<>();
     }
 
     public Employee(String fName, String lName, LocalDate startDate) {
         this.fName = fName;
         this.lName = lName;
         this.startDate = startDate;
+        this.projects = new HashSet<>();
     }
 
     public LocalDate getStartDate() {
@@ -144,7 +157,14 @@ public class Employee {
         return address;
     }
 
+    // Needed for synchronization of data in bidirectional relationships
     public void setAddress(Address address) {
+        if (this.address != null) {
+            this.address.setResident(null);
+        }
+        if(address != null){
+            address.setResident(this);
+        }
         this.address = address;
     }
 
@@ -161,6 +181,28 @@ public class Employee {
         return Objects.hash(id);
     }
 
+    private String getProjectNames(){
+        if(projects.isEmpty()){
+            return "[None]";
+        }
+        Iterator<Project> iter = projects.iterator();
+        Project project = iter.next();
+        String names = "[" + project.getName();
+        while(iter.hasNext()){
+            project = iter.next();
+            names = names + ", " + project.getName();
+        }
+
+        return names+ "]";
+    }
+
+    private String getDeptName(){
+        if(this.department != null){
+            return this.department.getName();
+        }
+        return "[None]";
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -169,8 +211,13 @@ public class Employee {
                 ", fName='" + fName + '\'' +
                 ", lName='" + lName + '\'' +
                 ", startDate=" + startDate +
-                ", department=" + department +
+                ", department=" + getDeptName() +
                 ", address=" + address +
+                ", projects=" + getProjectNames() +
                 '}';
+    }
+
+    public void addProject(Project p){
+        this.projects.add(p);
     }
 }

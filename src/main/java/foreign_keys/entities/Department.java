@@ -43,6 +43,7 @@ public class Department {
         this.employees = staff;
     }
 
+    // Needed for synchronisation of data in bidirectional relationship
     public boolean addStaff(Employee e){
         if(employees.add(e)){
             e.setDepartment(this);
@@ -50,7 +51,7 @@ public class Department {
         }
         return false;
     }
-
+    // Needed for synchronisation of data in bidirectional relationship
     public boolean removeStaff(Employee e){
         if(this.employees.remove(e)){
             e.setDepartment(null);

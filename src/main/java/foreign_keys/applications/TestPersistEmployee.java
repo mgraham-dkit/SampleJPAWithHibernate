@@ -1,12 +1,10 @@
 package foreign_keys.applications;
 
-import foreign_keys.daos.DepartmentDao;
-import foreign_keys.daos.DepartmentDaoInterface;
-import foreign_keys.daos.EmployeeDao;
-import foreign_keys.daos.EmployeeDaoInterface;
+import foreign_keys.daos.*;
 import foreign_keys.entities.Address;
 import foreign_keys.entities.Department;
 import foreign_keys.entities.Employee;
+import foreign_keys.entities.Project;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -95,9 +93,11 @@ public class TestPersistEmployee {
                 int addressIndex = rand.nextInt(addresses.size());
                 Address address = addresses.get(addressIndex);
 
-                Employee employee = new Employee(email, first, last, LocalDate.now(), dept, address);
-                address.setResident(employee);
+                Employee employee = new Employee(email, first, last, LocalDate.now());
+                // Connect the employee and department using synchronization methods
                 if(dept.addStaff(employee)) {
+                    // Connect the employee and address using synchronization methods
+                    employee.setAddress(address);
                     if (employeeDao.save(employee)) {
                         employees.add(employee);
                     }
@@ -106,6 +106,46 @@ public class TestPersistEmployee {
         }
 
         return employees;
+    }
+
+    public static List<Project> bootstrapProjects(ProjectDaoInterface projDao, List<Employee> employees){
+        List<Project> projects = new ArrayList<>();
+
+        String name = "Project #1";
+        String desc = "This is the project's description. It's not very interesting.";
+        LocalDate start = LocalDate.now();
+        LocalDate due = LocalDate.of(2024, 1, 23);
+        Project project = new Project(name, desc, start, due);
+        if(projDao.save(project)){
+            projects.add(project);
+        }
+
+        name = "Project #2";
+        desc = "This is the second project's description. It's not very interesting.";
+        start = LocalDate.now();
+        due = LocalDate.of(2023, 12, 23);
+        Project project2 = new Project(name, desc, start, due);
+        if(projDao.save(project2)){
+            projects.add(project2);
+        }
+
+        for(Employee e: employees){
+            double random = Math.random();
+            if(random <= 0.5){
+                project.addTeamMember(e);
+                if(random <= 0.3){
+                    project.addTeamMember(employees.get(0));
+                }
+                projDao.update(project);
+            }else{
+                project2.addTeamMember(e);
+                if(random >=0.75){
+                    project2.addTeamMember(employees.get(employees.size()-1));
+                }
+                projDao.update(project2);
+            }
+        }
+        return projects;
     }
 
     public static void main(String[] args) {
@@ -130,7 +170,15 @@ public class TestPersistEmployee {
         printList(departments);
         printList(employees);
 
+        // Test Many-To-Many
+        EntityManager projEntityManager = entityManagerFactory.createEntityManager();
+        ProjectDaoInterface projDao = new ProjectDao(projEntityManager);
+        List<Project> projects = bootstrapProjects(projDao, employees);
+
+        printList(projects);
+
         // Shutdown process - close all entity managers and the entity manager factory
+        projEntityManager.close();
         empEntityManager.close();
         deptEntityManager.close();
         entityManagerFactory.close();
