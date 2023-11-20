@@ -52,6 +52,7 @@ public class ProjectDao implements ProjectDaoInterface {
         Optional<Project> result = getProjectById(p.getId());
         if (result.isPresent()) {
             Project project = result.get();
+            project.update(p);
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();

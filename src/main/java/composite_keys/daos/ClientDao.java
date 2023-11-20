@@ -54,6 +54,7 @@ public class ClientDao implements ClientDaoInterface {
         Optional<Client> result = getClientByPrimary(id);
         if (result.isPresent()) {
             Client client = result.get();
+            client.update(c);
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();

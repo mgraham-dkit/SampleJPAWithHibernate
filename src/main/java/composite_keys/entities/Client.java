@@ -85,4 +85,13 @@ public class Client {
                 ", creditLimit=" + creditLimit +
                 '}';
     }
+
+    public boolean update(Client c){
+        if(this.equals(c)) {
+            this.salesRep = c.salesRep;
+            this.creditLimit = c.creditLimit;
+            return true;
+        }
+        return false;
+    }
 }

@@ -69,6 +69,7 @@ public class EmployeeDao implements EmployeeDaoInterface {
         Optional<Employee> result = getEmployeeById(e.getId());
         if (result.isPresent()) {
             Employee emp = result.get();
+            emp.update(e);
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();

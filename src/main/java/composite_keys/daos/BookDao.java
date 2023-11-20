@@ -56,6 +56,7 @@ public class BookDao implements BookDaoInterface {
         Optional<Book> result = getBookByPrimary(b.getBookId());
         if (result.isPresent()) {
             Book book = result.get();
+            book.update(b);
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();

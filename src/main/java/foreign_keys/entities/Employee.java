@@ -230,4 +230,18 @@ public class Employee {
     public void removeProject(Project p){
         this.projects.remove(p);
     }
+
+    public boolean update(Employee e){
+        if(this.equals(e)) {
+            this.email = e.email;
+            this.fName = e.fName;
+            this.lName = e.lName;
+            this.startDate = e.startDate;
+            this.department = e.department;
+            this.address = e.address;
+            this.projects = e.projects;
+            return true;
+        }
+        return false;
+    }
 }

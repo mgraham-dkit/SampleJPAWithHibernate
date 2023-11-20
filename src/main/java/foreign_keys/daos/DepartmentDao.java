@@ -48,6 +48,7 @@ public class DepartmentDao implements DepartmentDaoInterface {
         Optional<Department> result = getDepartmentById(d.getName());
         if (result.isPresent()) {
             Department dept = result.get();
+            dept.update(d);
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();

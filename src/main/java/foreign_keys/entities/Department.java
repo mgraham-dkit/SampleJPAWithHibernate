@@ -83,4 +83,12 @@ public class Department {
                 "name='" + name + '\'' + "\nstaffList=\n" + emailList +
                 '}';
     }
+
+    public boolean update(Department d){
+        if(this.equals(d)) {
+            this.employees = d.employees;
+            return true;
+        }
+        return false;
+    }
 }

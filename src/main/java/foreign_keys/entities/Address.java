@@ -144,4 +144,17 @@ public class Address {
                 ", resident=" + residentName +
                 '}';
     }
+
+    public boolean update(Address a){
+        if(this.equals(a)) {
+            this.line1 = a.line1;
+            this.line2 = a.line2;
+            this.line3 = a.line3;
+            this.postCode = a.postCode;
+            this.country = a.country;
+            this.resident = a.resident;
+            return true;
+        }
+        return false;
+    }
 }

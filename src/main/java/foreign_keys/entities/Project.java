@@ -154,4 +154,16 @@ public class Project {
         }
         return false;
     }
+
+    public boolean update(Project p){
+        if(this.equals(p)){
+            this.name = p.name;
+            this.description = p.description;
+            this.team = p.team;
+            this.startDate = p.startDate;
+            this.dueDate = p.dueDate;
+            return true;
+        }
+        return false;
+    }
 }

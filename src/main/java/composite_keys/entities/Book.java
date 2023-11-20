@@ -68,4 +68,13 @@ public class Book {
                 ", pageCount=" + pageCount +
                 '}';
     }
+
+    public boolean update(Book b){
+        if(this.equals(b)) {
+            this.description = b.description;
+            this.pageCount = b.pageCount;
+            return true;
+        }
+        return false;
+    }
 }

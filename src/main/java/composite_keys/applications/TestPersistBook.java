@@ -40,8 +40,12 @@ public class TestPersistBook {
 
         printList(dao.getAllBooks());
         System.out.println("-----------------");
-        printList(dao.getBooksByAuthor("Alice Walker"));
 
+        Book toBeUpdated = new Book(new BookId("The Colour Purple", "Alice Walker", "English"), "Maybe not so sad now" +
+                "...", 350);
+        Book updated = dao.update(toBeUpdated);
+        System.out.println(updated);
+        
         entityManager.close();
         entityManagerFactory.close();
     }
